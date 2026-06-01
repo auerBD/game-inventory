@@ -1,0 +1,853 @@
+/* =============================================================================
+   style.css — Game Inventory
+   Author: [Your Name]
+   Structure:
+     1.  CSS Variables (Design Tokens)
+     2.  Reset & Base
+     3.  Utility Classes
+     4.  Site Header
+     5.  Player Info & Avatar
+     6.  Stat Bars
+     7.  Main Navigation
+     8.  Main Layout (CSS Grid)
+     9.  Panel Header
+    10.  Item Pool Section
+    11.  Inventory Section & Grid
+    12.  Inventory Slot
+    13.  Item Card
+    14.  Item Detail Panel
+    15.  Footer
+    16.  Stats Page
+    17.  Media Queries
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. CSS VARIABLES — single source of truth for all design tokens
+   ============================================================================= */
+
+:root {
+    /* --- Color Palette --- */
+    --color-bg-page:        #111214;
+    --color-bg-panel:       #1c1e22;
+    --color-bg-panel-alt:   #242629;
+    --color-bg-slot:        #13151a;
+    --color-bg-slot-hover:  #1a1d24;
+
+    --color-border:         #2e3038;
+    --color-border-light:   #3d4050;
+
+    --color-text-primary:   #dde1ea;
+    --color-text-secondary: #7c8292;
+    --color-text-label:     #9aa0b2;
+
+    --color-accent:         #c8a84b;   /* gold — used for headers, level badge */
+    --color-accent-dim:     #7a6228;
+
+    /* --- HP / Mana bars --- */
+    --color-hp:             #c0392b;
+    --color-hp-track:       #3a1212;
+    --color-mana:           #2980b9;
+    --color-mana-track:     #0e2a40;
+
+    /* --- Item Rarity Colors --- */
+    --rarity-common:        #8a8fa0;
+    --rarity-uncommon:      #3dba5e;
+    --rarity-rare:          #3a9bdc;
+    --rarity-epic:          #a855f7;
+    --rarity-legendary:     #f59e0b;
+
+    /* --- Spacing Scale --- */
+    --space-xs:   4px;
+    --space-sm:   8px;
+    --space-md:   16px;
+    --space-lg:   24px;
+    --space-xl:   32px;
+    --space-xxl:  48px;
+
+    /* --- Border Radius --- */
+    --radius-sm:  4px;
+    --radius-md:  8px;
+    --radius-lg:  12px;
+
+    /* --- Typography --- */
+    --font-display: 'Cinzel', Georgia, serif;
+    --font-body:    'Exo 2', 'Segoe UI', sans-serif;
+
+    /* --- Inventory Grid --- */
+    --slot-size:        80px;
+    --inventory-cols:   6;
+    --pool-cols:        4;
+}
+
+
+/* =============================================================================
+   2. RESET & BASE
+   ============================================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    background-color: var(--color-bg-page);
+    color: var(--color-text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    font-family: var(--font-body);
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+select {
+    font-family: var(--font-body);
+}
+
+
+/* =============================================================================
+   3. UTILITY CLASSES
+   ============================================================================= */
+
+/* Visually hidden — for screen readers only (accessibility) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--color-accent);
+    margin-bottom: var(--space-lg);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+
+/* =============================================================================
+   4. SITE HEADER
+   ============================================================================= */
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding: var(--space-md) var(--space-xl);
+    background-color: var(--color-bg-panel);
+    border-bottom: 2px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+
+/* =============================================================================
+   5. PLAYER INFO & AVATAR
+   ============================================================================= */
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-shrink: 0;
+}
+
+.player-avatar {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    background-color: var(--color-bg-slot);
+    border: 2px solid var(--color-accent-dim);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.player-avatar__initials {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+}
+
+.player-avatar__level {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    background-color: var(--color-accent);
+    color: #1a1300;
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+}
+
+.player-stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.player-stats__name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    letter-spacing: 0.04em;
+}
+
+.player-stats__bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+
+/* =============================================================================
+   6. STAT BARS (HP / Mana)
+   ============================================================================= */
+
+.stat-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.stat-bar__label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    width: 20px;
+    text-transform: uppercase;
+}
+
+.stat-bar__track {
+    width: 120px;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.stat-bar--hp .stat-bar__track {
+    background-color: var(--color-hp-track);
+}
+
+.stat-bar--mana .stat-bar__track {
+    background-color: var(--color-mana-track);
+}
+
+.stat-bar__fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.stat-bar--hp .stat-bar__fill {
+    background-color: var(--color-hp);
+}
+
+.stat-bar--mana .stat-bar__fill {
+    background-color: var(--color-mana);
+}
+
+.stat-bar__value {
+    font-size: 0.65rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
+
+
+/* =============================================================================
+   7. MAIN NAVIGATION
+   ============================================================================= */
+
+.main-nav {
+    flex-shrink: 0;
+}
+
+.main-nav__list {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+}
+
+.main-nav__link {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    border: 1px solid transparent;
+    text-transform: uppercase;
+}
+
+.main-nav__link--active {
+    color: var(--color-accent);
+    border-color: var(--color-accent-dim);
+    background-color: rgba(200, 168, 75, 0.08);
+}
+
+
+/* =============================================================================
+   8. MAIN LAYOUT — CSS Grid (required by assignment)
+   ============================================================================= */
+
+.site-main {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-lg);
+    padding: var(--space-lg) var(--space-xl);
+    flex: 1;
+    align-items: start;
+}
+
+/* Stats page uses a single-column layout */
+.site-main--stats {
+    grid-template-columns: 1fr;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+
+/* =============================================================================
+   9. PANEL HEADER (shared between Item Pool & Inventory sections)
+   ============================================================================= */
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.panel-header__title {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-label);
+}
+
+.panel-header__counter {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+}
+
+.filter-select {
+    background-color: var(--color-bg-slot);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.75rem;
+    outline: none;
+    cursor: pointer;
+}
+
+
+/* =============================================================================
+   10. ITEM POOL SECTION
+   ============================================================================= */
+
+.item-pool {
+    background-color: var(--color-bg-panel);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    width: calc(var(--slot-size) * var(--pool-cols) + var(--space-sm) * (var(--pool-cols) - 1) + var(--space-md) * 2);
+    align-self: start;
+    position: sticky;
+    top: calc(68px + var(--space-lg));  /* below sticky header */
+}
+
+.item-pool__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--pool-cols), var(--slot-size));
+    gap: var(--space-sm);
+}
+
+
+/* =============================================================================
+   11. INVENTORY SECTION & GRID
+   ============================================================================= */
+
+.inventory {
+    background-color: var(--color-bg-panel);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+}
+
+.inventory__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--inventory-cols), var(--slot-size));
+    gap: var(--space-sm);
+}
+
+
+/* =============================================================================
+   12. INVENTORY SLOT
+   ============================================================================= */
+
+.slot {
+    width: var(--slot-size);
+    height: var(--slot-size);
+    background-color: var(--color-bg-slot);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Slot that currently contains an item */
+.slot--occupied {
+    border-color: var(--color-border-light);
+}
+
+/* Slot being dragged over — class added by JS */
+.slot--drag-over {
+    border-color: var(--color-accent);
+    background-color: var(--color-bg-slot-hover);
+}
+
+/* Slot that cannot accept a drop */
+.slot--drag-reject {
+    border-color: var(--color-hp);
+}
+
+
+/* =============================================================================
+   13. ITEM CARD (inside pool list & inventory slots)
+   ============================================================================= */
+
+.item-card {
+    width: var(--slot-size);
+    height: var(--slot-size);
+    position: relative;
+    cursor: grab;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg-slot);
+    border: 1px solid var(--color-border);
+}
+
+.item-card:active {
+    cursor: grabbing;
+}
+
+.item-card__icon {
+    font-size: 2rem;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+.item-detail__icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    user-select: none;
+}
+
+/* Quantity badge — bottom-right corner */
+.item-card__quantity {
+    position: absolute;
+    bottom: 3px;
+    right: 5px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-shadow: 1px 1px 2px #000;
+    pointer-events: none;
+}
+
+/* Star rating — bottom-center (for weapons) */
+.item-card__stars {
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1px;
+    pointer-events: none;
+}
+
+.item-card__star {
+    font-size: 0.55rem;
+    color: var(--color-accent);
+}
+
+/* Top-left rarity indicator stripe */
+.item-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+}
+
+.item-card--common::before    { background-color: var(--rarity-common); }
+.item-card--uncommon::before  { background-color: var(--rarity-uncommon); }
+.item-card--rare::before      { background-color: var(--rarity-rare); }
+.item-card--epic::before      { background-color: var(--rarity-epic); }
+.item-card--legendary::before { background-color: var(--rarity-legendary); }
+
+/* Selected state — when clicking for detail view */
+.item-card--selected {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent-dim);
+}
+
+
+/* =============================================================================
+   14. ITEM DETAIL PANEL
+   ============================================================================= */
+
+.item-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    background-color: var(--color-bg-panel-alt);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    position: relative;
+}
+
+/* hidden attribute overrides display — JS removes [hidden] to show */
+.item-detail[hidden] {
+    display: none;
+}
+
+.item-detail__icon-wrapper {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    background-color: var(--color-bg-slot);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-detail__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.item-detail__name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.item-detail__type,
+.item-detail__rarity {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.item-detail__rarity { margin-bottom: var(--space-sm); }
+
+.item-detail__description {
+    font-size: 0.8rem;
+    color: var(--color-text-label);
+    line-height: 1.6;
+}
+
+/* Rarity-colored name */
+.item-detail__rarity--common    { color: var(--rarity-common); }
+.item-detail__rarity--uncommon  { color: var(--rarity-uncommon); }
+.item-detail__rarity--rare      { color: var(--rarity-rare); }
+.item-detail__rarity--epic      { color: var(--rarity-epic); }
+.item-detail__rarity--legendary { color: var(--rarity-legendary); }
+
+.item-detail__close {
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-sm);
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+}
+
+
+/* =============================================================================
+   15. FOOTER
+   ============================================================================= */
+
+.site-footer {
+    padding: var(--space-md) var(--space-xl);
+    background-color: var(--color-bg-panel);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+}
+
+.site-footer__text {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.04em;
+}
+
+
+/* =============================================================================
+   16. STATS PAGE
+   ============================================================================= */
+
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+    background-color: var(--color-bg-panel);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    text-align: center;
+}
+
+.stat-card__value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1;
+    margin-bottom: var(--space-xs);
+}
+
+.stat-card__label {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.stats-overview,
+.stats-breakdown,
+.stats-rarity {
+    margin-bottom: var(--space-xl);
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.stats-table th,
+.stats-table td {
+    padding: var(--space-sm) var(--space-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.stats-table th {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-panel);
+}
+
+.stats-table td {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-panel-alt);
+}
+
+.rarity-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.rarity-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--color-bg-panel);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.rarity-item__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.rarity-item__name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    flex: 1;
+    text-transform: capitalize;
+}
+
+.rarity-item__count {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+
+/* =============================================================================
+   17. MEDIA QUERIES — Responsive Design
+   ============================================================================= */
+
+/* --- Tablet: 1024px and below --- */
+@media (max-width: 1024px) {
+    :root {
+        --slot-size: 70px;
+        --inventory-cols: 5;
+        --pool-cols: 3;
+    }
+
+    .site-main {
+        grid-template-columns: 1fr;
+        padding: var(--space-md);
+    }
+
+    .item-pool {
+        position: static;  /* no longer sticky on tablet */
+        width: 100%;
+    }
+
+    .item-pool__grid {
+        grid-template-columns: repeat(auto-fill, minmax(var(--slot-size), 1fr));
+    }
+
+    .inventory__grid {
+        grid-template-columns: repeat(var(--inventory-cols), var(--slot-size));
+    }
+}
+
+/* --- Mobile: 640px and below --- */
+@media (max-width: 640px) {
+    :root {
+        --slot-size: 60px;
+        --inventory-cols: 4;
+        --pool-cols: 4;
+    }
+
+    .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--space-sm) var(--space-md);
+        gap: var(--space-sm);
+    }
+
+    .stat-bar__track {
+        width: 80px;
+    }
+
+    .stat-bar__value {
+        display: none;  /* hide number on very small screens */
+    }
+
+    .main-nav__link {
+        font-size: 0.75rem;
+        padding: var(--space-xs) var(--space-sm);
+    }
+
+    .site-main {
+        padding: var(--space-sm);
+        gap: var(--space-sm);
+    }
+
+    .inventory__grid {
+        grid-template-columns: repeat(var(--inventory-cols), var(--slot-size));
+    }
+
+    .item-detail {
+        flex-direction: column;
+    }
+}
+
+/* --- Small Mobile: 400px and below --- */
+@media (max-width: 400px) {
+    :root {
+        --slot-size: 56px;
+        --inventory-cols: 4;
+    }
+}
