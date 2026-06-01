@@ -123,7 +123,6 @@ function createItemCard(item) {
     card.setAttribute("data-item-id",   item.id);
     card.setAttribute("draggable",      "true");
     card.setAttribute("tabindex",       "0");
-    card.setAttribute("role",           "button");
     card.setAttribute("aria-label",     item.name + ", " + item.rarity + " " + item.type);
 
     /* --- Icon (emoji rendered as text) --- */

@@ -170,29 +170,6 @@
     outline: none;
 }
 
-
-/* =============================================================================
-   6. LEGENDARY ITEM — persistent subtle glow animation
-   ============================================================================= */
-
-.item-card--legendary {
-    animation: legendary-glow 3s ease-in-out infinite alternate;
-}
-
-@keyframes legendary-glow {
-    from {
-        box-shadow: 0 0 4px rgba(245, 158, 11, 0.15);
-    }
-    to {
-        box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
-    }
-}
-
-/* Pause the ambient glow while hovering (the hover effect takes over) */
-.item-card--legendary:hover {
-    animation: none;
-}
-
 /* =============================================================================
    7. DRAGGING STATE — used by dragdrop.js
    ============================================================================= */
