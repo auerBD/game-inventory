@@ -1,30 +1,5 @@
-/* =============================================================================
-   style.css — Game Inventory
-   Author: Bence Daniel Auer
-   Structure:
-     1.  CSS Variables (Design Tokens)
-     2.  Reset & Base
-     3.  Utility Classes
-     4.  Site Header
-     5.  Player Info & Avatar
-     6.  Stat Bars
-     7.  Main Navigation
-     8.  Main Layout (CSS Grid)
-     9.  Panel Header
-    10.  Item Pool Section
-    11.  Inventory Section & Grid
-    12.  Inventory Slot
-    13.  Item Card
-    14.  Item Detail Panel
-    15.  Footer
-    16.  Stats Page
-    17.  Media Queries
-   ============================================================================= */
 
-
-/* =============================================================================
-   1. CSS VARIABLES — single source of truth for all design tokens
-   ============================================================================= */
+/* === Variables === */
 
 :root {
     /* --- Color Palette --- */
@@ -41,7 +16,7 @@
     --color-text-secondary: #7c8292;
     --color-text-label:     #9aa0b2;
 
-    --color-accent:         #c8a84b;   /* gold — used for headers, level badge */
+    --color-accent:         #c8a84b;
     --color-accent-dim:     #7a6228;
 
     /* --- HP / Mana bars --- */
@@ -81,9 +56,7 @@
 }
 
 
-/* =============================================================================
-   2. RESET & BASE
-   ============================================================================= */
+ /* 2. RESET & BASE */
 
 *,
 *::before,
@@ -135,22 +108,9 @@ select {
 }
 
 
-/* =============================================================================
-   3. UTILITY CLASSES
-   ============================================================================= */
 
-/* Visually hidden — for screen readers only (accessibility) */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
+ /*  3. UTILITY CLASSES */
+
 
 .section-title {
     font-family: var(--font-display);
@@ -162,9 +122,7 @@ select {
 }
 
 
-/* =============================================================================
-   4. SITE HEADER
-   ============================================================================= */
+/* 4. SITE HEADER */
 
 .site-header {
     display: flex;
@@ -180,9 +138,7 @@ select {
 }
 
 
-/* =============================================================================
-   5. PLAYER INFO & AVATAR
-   ============================================================================= */
+/* 5. PLAYER INFO & AVATAR */
 
 .player-info {
     display: flex;
@@ -250,9 +206,7 @@ select {
 }
 
 
-/* =============================================================================
-   6. STAT BARS (HP / Mana)
-   ============================================================================= */
+/* 6. STAT BARS (HP / Mana) */
 
 .stat-bar {
     display: flex;
@@ -305,9 +259,7 @@ select {
 }
 
 
-/* =============================================================================
-   7. MAIN NAVIGATION
-   ============================================================================= */
+/* 7. MAIN NAVIGATION */
 
 .main-nav {
     flex-shrink: 0;
@@ -339,9 +291,7 @@ select {
 }
 
 
-/* =============================================================================
-   8. MAIN LAYOUT — CSS Grid (required by assignment)
-   ============================================================================= */
+/* 8. MAIN LAYOUT — CSS Grid */
 
 .site-main {
     display: grid;
@@ -361,9 +311,7 @@ select {
 }
 
 
-/* =============================================================================
-   9. PANEL HEADER (shared between Item Pool & Inventory sections)
-   ============================================================================= */
+/* 9. PANEL HEADER (shared between Item Pool & Inventory sections) */
 
 .panel-header {
     display: flex;
@@ -400,9 +348,7 @@ select {
 }
 
 
-/* =============================================================================
-   10. ITEM POOL SECTION
-   ============================================================================= */
+/* 10. ITEM POOL SECTION */
 
 .item-pool {
     background-color: var(--color-bg-panel);
@@ -422,9 +368,7 @@ select {
 }
 
 
-/* =============================================================================
-   11. INVENTORY SECTION & GRID
-   ============================================================================= */
+/* 11. INVENTORY SECTION & GRID */
 
 .inventory {
     background-color: var(--color-bg-panel);
@@ -440,9 +384,7 @@ select {
 }
 
 
-/* =============================================================================
-   12. INVENTORY SLOT
-   ============================================================================= */
+/* 12. INVENTORY SLOT */
 
 .slot {
     width: var(--slot-size);
@@ -454,7 +396,7 @@ select {
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* Slot that currently contains an item */
@@ -474,9 +416,7 @@ select {
 }
 
 
-/* =============================================================================
-   13. ITEM CARD (inside pool list & inventory slots)
-   ============================================================================= */
+/* 13. ITEM CARD (inside pool list & inventory slots) */
 
 .item-card {
     width: var(--slot-size);
@@ -560,9 +500,7 @@ select {
 }
 
 
-/* =============================================================================
-   14. ITEM DETAIL PANEL
-   ============================================================================= */
+/* 14. ITEM DETAIL PANEL */
 
 .item-detail {
     display: flex;
@@ -644,9 +582,7 @@ select {
 }
 
 
-/* =============================================================================
-   15. FOOTER
-   ============================================================================= */
+/* 15. FOOTER */
 
 .site-footer {
     padding: var(--space-md) var(--space-xl);
@@ -662,9 +598,7 @@ select {
 }
 
 
-/* =============================================================================
-   16. STATS PAGE
-   ============================================================================= */
+/* 16. STATS PAGE */
 
 .stats-cards {
     display: grid;
@@ -771,9 +705,7 @@ select {
 }
 
 
-/* =============================================================================
-   17. MEDIA QUERIES — Responsive Design
-   ============================================================================= */
+/* 17. MEDIA QUERIES — Responsive Design */
 
 /* --- Tablet: 1024px and below --- */
 @media (max-width: 1024px) {

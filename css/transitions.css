@@ -1,24 +1,4 @@
-/* =============================================================================
-   transitions.css — CSS Special Task 04
-   CSS-Transitions für komplexe Hover- & Fokus-Effekte
-   
-   NOTE: This file is the CSS Special Task (Assignment 04).
-   All hover and focus effects live here, separated from layout CSS.
-   This separation will be explained during the final presentation.
-
-   Contents:
-     1.  Navigation Link Transitions
-     2.  Item Card Hover Effects
-     3.  Slot Hover & Focus Effects
-     4.  Item Detail Close Button
-     5.  Filter Select Focus
-     6.  Rarity Glow Animations (@keyframes)
-   ============================================================================= */
-
-
-/* =============================================================================
-   1. NAVIGATION LINK TRANSITIONS
-   ============================================================================= */
+/* 1. NAVIGATION LINK TRANSITIONS */
 
 .main-nav__link {
     transition:
@@ -39,9 +19,7 @@
 }
 
 
-/* =============================================================================
-   2. ITEM CARD HOVER EFFECTS
-   ============================================================================= */
+/* 2. ITEM CARD HOVER EFFECTS */
 
 .item-card {
     transition:
@@ -90,9 +68,7 @@
 }
 
 
-/* =============================================================================
-   3. SLOT HOVER & FOCUS EFFECTS
-   ============================================================================= */
+/* 3. SLOT HOVER & FOCUS EFFECTS */
 
 .slot {
     transition:
@@ -117,21 +93,8 @@
     animation: slot-pulse 0.8s ease infinite alternate;
 }
 
-@keyframes slot-pulse {
-    from {
-        border-color: var(--color-accent);
-        box-shadow: 0 0 6px rgba(200, 168, 75, 0.3);
-    }
-    to {
-        border-color: var(--rarity-legendary);
-        box-shadow: 0 0 14px rgba(200, 168, 75, 0.55);
-    }
-}
 
-
-/* =============================================================================
-   4. ITEM DETAIL CLOSE BUTTON
-   ============================================================================= */
+/* 4. ITEM DETAIL CLOSE BUTTON */
 
 .item-detail__close {
     transition:
@@ -150,9 +113,7 @@
 }
 
 
-/* =============================================================================
-   5. FILTER SELECT FOCUS
-   ============================================================================= */
+/* 5. FILTER SELECT FOCUS */
 
 .filter-select {
     transition:
@@ -169,10 +130,6 @@
     box-shadow: 0 0 0 2px rgba(200, 168, 75, 0.15);
     outline: none;
 }
-
-/* =============================================================================
-   7. DRAGGING STATE — used by dragdrop.js
-   ============================================================================= */
 
 /* Card being dragged — reduces opacity so the ghost is visible */
 .item-card--dragging {

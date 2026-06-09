@@ -36,9 +36,6 @@
         const li = document.createElement("li");
         li.appendChild(card);
         pool.appendChild(li);
-
-        // If card came from a slot, mark that slot empty
-        const oldSlot = card.closest ? null : null; // handled below
       }
 
       updateSlotCounter();
