@@ -1,16 +1,10 @@
-/* =============================================================================
-   inventory.js — DOM Rendering & Inventory Logic
-   
+/* 
    Responsibilities:
      - Render item cards into the item pool from data.js
      - Create inventory slots dynamically
      - Handle item selection and detail panel
      - Handle item pool filter (by type)
      - Track and display slot usage counter
-   
-   Does NOT handle drag & drop — that lives in dragdrop.js
-   ============================================================================= */
-
 
 /* -----------------------------------------------------------------------------
    CONSTANTS
@@ -300,13 +294,6 @@ function setupDetailClose() {
    PUBLIC HELPERS
    These functions are called by dragdrop.js to keep logic cleanly separated.
    ============================================================================= */
-
-/* Returns the item object for a given item ID */
-function getItemById(id) {
-    return ITEMS.find(function (item) {
-        return item.id === id;
-    });
-}
 
 /* Marks a slot as occupied and updates the counter */
 function markSlotOccupied(slotElement) {

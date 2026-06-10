@@ -341,7 +341,7 @@ select {
     border-radius: var(--radius-sm);
     padding: var(--space-xs) var(--space-sm);
     font-size: 0.75rem;
-    outline: none;
+    outline: none; 
     cursor: pointer;
 }
 
