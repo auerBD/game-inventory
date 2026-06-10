@@ -5,14 +5,15 @@
      - Handle item selection and detail panel
      - Handle item pool filter (by type)
      - Track and display slot usage counter
+*/
 
 /* -----------------------------------------------------------------------------
    CONSTANTS
    ----------------------------------------------------------------------------- */
 
-const INVENTORY_ROWS    = 5;
-const INVENTORY_COLS    = 6;
-const TOTAL_SLOTS       = INVENTORY_ROWS * INVENTORY_COLS;  /* 30 slots */
+const INVENTORY_ROWS = 5;
+const INVENTORY_COLS = 6;
+const TOTAL_SLOTS    = INVENTORY_ROWS * INVENTORY_COLS;  /* 30 slots */
 
 /* Tracks which item is currently selected (for detail panel) */
 let selectedItemId = null;
@@ -33,8 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /* =============================================================================
    RENDER INVENTORY SLOTS
-   Creates TOTAL_SLOTS empty slot elements and appends them to the grid.
-   Each slot gets a unique data-slot-index attribute for drag & drop targeting.
    ============================================================================= */
 
 function renderInventorySlots() {
@@ -47,20 +46,11 @@ function renderInventorySlots() {
 }
 
 
-/* -----------------------------------------------------------------------------
-   Creates and returns a single slot <div> element.
-   @param {number} index — the slot's position index (0 to TOTAL_SLOTS - 1)
-   @returns {HTMLElement}
-   ----------------------------------------------------------------------------- */
-
 function createSlotElement(index) {
     const slot = document.createElement("div");
 
     slot.classList.add("slot");
     slot.setAttribute("data-slot-index", index);
-    slot.setAttribute("role", "gridcell");
-    slot.setAttribute("tabindex", "0");
-    slot.setAttribute("aria-label", "Empty inventory slot " + (index + 1));
 
     return slot;
 }
@@ -68,16 +58,11 @@ function createSlotElement(index) {
 
 /* =============================================================================
    RENDER ITEM POOL
-   Takes an array of items, creates a card for each, and renders them into
-   the item pool grid. Clears existing cards first (used by filter too).
-   
-   @param {Array} items — array of item objects from ITEMS (data.js)
    ============================================================================= */
 
 function renderItemPool(items) {
     const poolGrid = document.getElementById("item-pool-grid");
 
-    /* Clear existing cards before re-rendering (needed for filter) */
     poolGrid.innerHTML = "";
 
     if (items.length === 0) {
@@ -100,31 +85,19 @@ function renderItemPool(items) {
 
 /* =============================================================================
    CREATE ITEM CARD
-   Builds a complete item card element from an item object.
-   This function is also used by dragdrop.js when dropping an item into a slot.
-   
-   @param  {Object}      item — item object from ITEMS array
-   @returns {HTMLElement} the finished .item-card element
    ============================================================================= */
 
 function createItemCard(item) {
     const card = document.createElement("div");
 
-    /* Base classes */
     card.classList.add("item-card", "item-card--" + item.rarity);
-
-    /* Data attributes — used by drag & drop and detail panel */
-    card.setAttribute("data-item-id",   item.id);
-    card.setAttribute("draggable",      "true");
-    card.setAttribute("tabindex",       "0");
-    card.setAttribute("aria-label",     item.name + ", " + item.rarity + " " + item.type)
+    card.setAttribute("data-item-id", item.id);
     card.setAttribute("draggable", "true");
     card.addEventListener("dragstart", ziehen);
 
-    /* --- Icon (emoji rendered as text) --- */
+    /* --- Icon --- */
     const icon = document.createElement("span");
     icon.classList.add("item-card__icon");
-    icon.setAttribute("aria-hidden", "true");
     icon.textContent = item.emoji;
     card.appendChild(icon);
 
@@ -140,12 +113,10 @@ function createItemCard(item) {
     if (item.stars > 0) {
         const starsWrapper = document.createElement("span");
         starsWrapper.classList.add("item-card__stars");
-        starsWrapper.setAttribute("aria-label", item.stars + " stars");
 
         for (let i = 0; i < item.stars; i++) {
             const star = document.createElement("span");
             star.classList.add("item-card__star");
-            star.setAttribute("aria-hidden", "true");
             star.textContent = "★";
             starsWrapper.appendChild(star);
         }
@@ -158,23 +129,12 @@ function createItemCard(item) {
         showItemDetail(item);
     });
 
-    /* --- Keyboard: Enter or Space also opens detail panel --- */
-    card.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            showItemDetail(item);
-        }
-    });
-
     return card;
 }
 
 
 /* =============================================================================
    ITEM DETAIL PANEL
-   Populates the detail panel with item data and makes it visible.
-   
-   @param {Object} item — item object from ITEMS array
    ============================================================================= */
 
 function showItemDetail(item) {
@@ -185,39 +145,28 @@ function showItemDetail(item) {
     const rarity      = document.getElementById("item-detail-rarity");
     const description = document.getElementById("item-detail-description");
 
-    /* Populate fields */
-    icon.textContent  = item.emoji;        /* emoji instead of src */
-    icon.alt          = item.name;
-    name.textContent  = item.name;
-    type.textContent  = item.type.charAt(0).toUpperCase() + item.type.slice(1);
+    icon.textContent        = item.emoji;
+    icon.alt                = item.name;
+    name.textContent        = item.name;
+    type.textContent        = item.type.charAt(0).toUpperCase() + item.type.slice(1);
     description.textContent = item.description;
 
-    /* Rarity label with color class */
     rarity.textContent = item.rarity.charAt(0).toUpperCase() + item.rarity.slice(1);
     rarity.className   = "item-detail__rarity item-detail__rarity--" + item.rarity;
 
     /* Mark selected card visually */
     if (selectedItemId) {
         const prev = document.querySelector("[data-item-id='" + selectedItemId + "']");
-        if (prev) {
-            prev.classList.remove("item-card--selected");
-        }
+        if (prev) prev.classList.remove("item-card--selected");
     }
 
     selectedItemId = item.id;
     const current = document.querySelector("[data-item-id='" + item.id + "']");
-    if (current) {
-        current.classList.add("item-card--selected");
-    }
+    if (current) current.classList.add("item-card--selected");
 
-    /* Show panel (remove the hidden attribute) */
     panel.removeAttribute("hidden");
 }
 
-
-/* -----------------------------------------------------------------------------
-   Hides the detail panel and deselects the current item.
-   ----------------------------------------------------------------------------- */
 
 function hideItemDetail() {
     const panel = document.getElementById("item-detail");
@@ -225,16 +174,14 @@ function hideItemDetail() {
 
     if (selectedItemId) {
         const card = document.querySelector("[data-item-id='" + selectedItemId + "']");
-        if (card) {
-            card.classList.remove("item-card--selected");
-        }
+        if (card) card.classList.remove("item-card--selected");
         selectedItemId = null;
     }
 }
 
 
 /* =============================================================================
-   FILTER — filters the item pool by type using the <select> element
+   FILTER
    ============================================================================= */
 
 function setupFilter() {
@@ -256,7 +203,7 @@ function setupFilter() {
 
 
 /* =============================================================================
-   SLOT COUNTER — updates the "X / 30 Slots" display in the inventory header
+   SLOT COUNTER
    ============================================================================= */
 
 function updateSlotCounter() {
@@ -280,31 +227,19 @@ function setupDetailClose() {
     closeBtn.addEventListener("click", function () {
         hideItemDetail();
     });
-
-    /* Also close with Escape key */
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
-            hideItemDetail();
-        }
-    });
 }
 
 
 /* =============================================================================
    PUBLIC HELPERS
-   These functions are called by dragdrop.js to keep logic cleanly separated.
    ============================================================================= */
 
-/* Marks a slot as occupied and updates the counter */
 function markSlotOccupied(slotElement) {
     slotElement.classList.add("slot--occupied");
-    slotElement.setAttribute("aria-label", "Occupied inventory slot");
     updateSlotCounter();
 }
 
-/* Marks a slot as empty and updates the counter */
 function markSlotEmpty(slotElement) {
     slotElement.classList.remove("slot--occupied");
-    slotElement.setAttribute("aria-label", "Empty inventory slot");
     updateSlotCounter();
 }

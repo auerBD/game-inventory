@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Game Inventory - Player statistics and item breakdown">
 
   <title>Stats — Game Inventory</title>
 
@@ -20,22 +19,21 @@
 <body>
 
   <!-- =============================================
-         HEADER — same across both pages
-         ============================================= -->
+       HEADER — same across both pages
+       ============================================= -->
   <header class="site-header">
 
     <div class="player-info">
-      <div class="player-avatar" aria-label="Player avatar">
+      <div class="player-avatar">
         <span class="player-avatar__initials">KN</span>
-        <span class="player-avatar__level" aria-label="Player level">42</span>
+        <span class="player-avatar__level">42</span>
       </div>
 
       <div class="player-stats">
         <h1 class="player-stats__name">Knight</h1>
 
         <div class="player-stats__bars">
-          <div class="stat-bar stat-bar--hp" role="meter" aria-label="Health points" aria-valuenow="75"
-            aria-valuemin="0" aria-valuemax="100">
+          <div class="stat-bar stat-bar--hp">
             <span class="stat-bar__label">HP</span>
             <div class="stat-bar__track">
               <div class="stat-bar__fill" style="width: 75%"></div>
@@ -43,8 +41,7 @@
             <span class="stat-bar__value">75 / 100</span>
           </div>
 
-          <div class="stat-bar stat-bar--mana" role="meter" aria-label="Mana points" aria-valuenow="60"
-            aria-valuemin="0" aria-valuemax="100">
+          <div class="stat-bar stat-bar--mana">
             <span class="stat-bar__label">MP</span>
             <div class="stat-bar__track">
               <div class="stat-bar__fill" style="width: 60%"></div>
@@ -55,7 +52,7 @@
       </div>
     </div>
 
-    <nav class="main-nav" aria-label="Main navigation">
+    <nav class="main-nav">
       <ul class="main-nav__list">
         <li class="main-nav__item">
           <a href="index.html" class="main-nav__link">
@@ -63,7 +60,7 @@
           </a>
         </li>
         <li class="main-nav__item">
-          <a href="stats.html" class="main-nav__link main-nav__link--active" aria-current="page">
+          <a href="stats.html" class="main-nav__link main-nav__link--active">
             Stats
           </a>
         </li>
@@ -73,32 +70,27 @@
   </header>
 
   <!-- =============================================
-         MAIN — Stats overview page
-         ============================================= -->
+       MAIN — Stats overview page
+       ============================================= -->
   <main class="site-main site-main--stats">
 
-    <section class="stats-overview" aria-labelledby="stats-heading">
-      <h2 id="stats-heading" class="section-title">Player Statistics</h2>
-
-      <!-- Summary cards — filled dynamically by JS -->
-      <ul class="stats-cards" id="stats-cards" aria-label="Inventory summary">
+    <section class="stats-overview">
+      <h2 class="section-title">Player Statistics</h2>
+      <ul class="stats-cards" id="stats-cards">
         <!-- Dynamic content — rendered by JavaScript -->
       </ul>
     </section>
 
-    <section class="stats-breakdown" aria-labelledby="breakdown-heading">
-      <h2 id="breakdown-heading" class="section-title">Items by Type</h2>
-
-      <!-- Table rendered dynamically by JS -->
+    <section class="stats-breakdown">
+      <h2 class="section-title">Items by Type</h2>
       <div class="table-wrapper" id="stats-table-wrapper">
         <!-- Dynamic content — rendered by JavaScript -->
       </div>
     </section>
 
-    <section class="stats-rarity" aria-labelledby="rarity-heading">
-      <h2 id="rarity-heading" class="section-title">Items by Rarity</h2>
-
-      <ul class="rarity-list" id="rarity-list" aria-label="Items grouped by rarity">
+    <section class="stats-rarity">
+      <h2 class="section-title">Items by Rarity</h2>
+      <ul class="rarity-list" id="rarity-list">
         <!-- Dynamic content — rendered by JavaScript -->
       </ul>
     </section>
@@ -106,8 +98,8 @@
   </main>
 
   <!-- =============================================
-         FOOTER
-         ============================================= -->
+       FOOTER
+       ============================================= -->
   <footer class="site-footer">
     <p class="site-footer__text">
       Game Inventory &mdash; Web Technology Project &copy; 2025

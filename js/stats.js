@@ -70,15 +70,14 @@ function renderBreakdownTable() {
     /* Build table */
     const table = document.createElement("table");
     table.classList.add("stats-table");
-    table.setAttribute("aria-label", "Items grouped by type");
 
     /* Table head */
     const thead = document.createElement("thead");
     thead.innerHTML =
         "<tr>" +
-            "<th scope='col'>Type</th>" +
-            "<th scope='col'>Unique Items</th>" +
-            "<th scope='col'>Total Quantity</th>" +
+            "<th>Type</th>" +
+            "<th>Unique Items</th>" +
+            "<th>Total Quantity</th>" +
         "</tr>";
     table.appendChild(thead);
 
@@ -135,7 +134,6 @@ function renderRarityList() {
         const dot = document.createElement("span");
         dot.classList.add("rarity-item__dot");
         dot.style.backgroundColor = rarityColors[rarity];
-        dot.setAttribute("aria-hidden", "true");
 
         const name = document.createElement("span");
         name.classList.add("rarity-item__name");

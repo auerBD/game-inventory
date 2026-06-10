@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Game Inventory - Manage your items, equipment and loot">
   <title>Game Inventory</title>
 
   <link rel="stylesheet" href="css/style.css">
@@ -19,22 +18,21 @@
 <body>
 
   <!-- =============================================
-         HEADER — Player info bar & main navigation
-         ============================================= -->
+       HEADER — Player info bar & main navigation
+       ============================================= -->
   <header class="site-header">
 
     <div class="player-info">
-      <div class="player-avatar" aria-label="Player avatar">
+      <div class="player-avatar">
         <span class="player-avatar__initials">KN</span>
-        <span class="player-avatar__level" aria-label="Player level">42</span>
+        <span class="player-avatar__level">42</span>
       </div>
 
       <div class="player-stats">
         <h1 class="player-stats__name">Knight</h1>
 
         <div class="player-stats__bars">
-          <div class="stat-bar stat-bar--hp" role="meter" aria-label="Health points" aria-valuenow="75"
-            aria-valuemin="0" aria-valuemax="100">
+          <div class="stat-bar stat-bar--hp">
             <span class="stat-bar__label">HP</span>
             <div class="stat-bar__track">
               <div class="stat-bar__fill" style="width: 75%"></div>
@@ -42,8 +40,7 @@
             <span class="stat-bar__value">75 / 100</span>
           </div>
 
-          <div class="stat-bar stat-bar--mana" role="meter" aria-label="Mana points" aria-valuenow="60"
-            aria-valuemin="0" aria-valuemax="100">
+          <div class="stat-bar stat-bar--mana">
             <span class="stat-bar__label">MP</span>
             <div class="stat-bar__track">
               <div class="stat-bar__fill" style="width: 60%"></div>
@@ -54,10 +51,10 @@
       </div>
     </div>
 
-    <nav class="main-nav" aria-label="Main navigation">
+    <nav class="main-nav">
       <ul class="main-nav__list">
         <li class="main-nav__item">
-          <a href="index.html" class="main-nav__link main-nav__link--active" aria-current="page">
+          <a href="index.html" class="main-nav__link main-nav__link--active">
             Inventory
           </a>
         </li>
@@ -72,18 +69,17 @@
   </header>
 
   <!-- =============================================
-         MAIN — Two-column layout: Item Pool + Inventory Grid
-         ============================================= -->
+       MAIN — Two-column layout: Item Pool + Inventory Grid
+       ============================================= -->
   <main class="site-main">
 
     <!-- LEFT COLUMN: Available items to drag from -->
-    <section class="item-pool" aria-labelledby="item-pool-heading" role="grid" ondragover="ablegenErlauben(event)"
-      ondrop="ablegen(event)">
+    <section class="item-pool" ondragover="ablegenErlauben(event)" ondrop="ablegen(event)">
 
       <div class="panel-header">
         <h2 class="panel-header__title" id="item-pool-heading">Item Pool</h2>
         <div class="panel-header__controls">
-        <select id="item-filter" class="filter-select" aria-label="Filter items by type">
+          <select id="item-filter" class="filter-select">
             <option value="all">All Types</option>
             <option value="material">Materials</option>
             <option value="consumable">Consumables</option>
@@ -93,16 +89,14 @@
         </div>
       </div>
 
-      <!-- Items are injected here by data.js + inventory.js -->
-      <ul class="item-pool__grid" id="item-pool-grid" aria-label="Available items">
+      <ul class="item-pool__grid" id="item-pool-grid">
         <!-- Dynamic content — rendered by JavaScript -->
       </ul>
 
     </section>
 
     <!-- RIGHT COLUMN: Inventory grid with draggable slots -->
-    <section class="inventory" aria-labelledby="inventory-heading" role="grid" ondragover="ablegenErlauben(event)"
-      ondrop="ablegen(event)">
+    <section class="inventory" ondragover="ablegenErlauben(event)" ondrop="ablegen(event)">
 
       <div class="panel-header">
         <h2 class="panel-header__title" id="inventory-heading">Inventory</h2>
@@ -111,15 +105,14 @@
         </p>
       </div>
 
-      <!-- Slots are injected here by inventory.js -->
-      <div class="inventory__grid" id="inventory-grid" aria-label="Inventory slots" role="grid">
+      <div class="inventory__grid" id="inventory-grid">
         <!-- Dynamic content — rendered by JavaScript -->
       </div>
 
-      <!-- Item detail panel — shown on click/hover of an inventory item -->
-      <aside class="item-detail" id="item-detail" aria-live="polite" aria-label="Item details" hidden>
+      <!-- Item detail panel — shown on click of an inventory item -->
+      <aside class="item-detail" id="item-detail" hidden>
         <div class="item-detail__icon-wrapper">
-          <span class="item-detail__icon" id="item-detail-icon" aria-hidden="true"></span>
+          <span class="item-detail__icon" id="item-detail-icon"></span>
         </div>
         <div class="item-detail__info">
           <h3 class="item-detail__name" id="item-detail-name"></h3>
@@ -127,9 +120,7 @@
           <p class="item-detail__rarity" id="item-detail-rarity"></p>
           <p class="item-detail__description" id="item-detail-description"></p>
         </div>
-        <button class="item-detail__close" id="item-detail-close" aria-label="Close item details">
-          ✕
-        </button>
+        <button class="item-detail__close" id="item-detail-close">✕</button>
       </aside>
 
     </section>
@@ -137,15 +128,14 @@
   </main>
 
   <!-- =============================================
-         FOOTER
-         ============================================= -->
+       FOOTER
+       ============================================= -->
   <footer class="site-footer">
     <p class="site-footer__text">
       Game Inventory &mdash; Web Technology Project &copy; 2025
     </p>
   </footer>
 
-  <!-- Scripts — loaded at end of body for performance -->
   <script src="js/data.js"></script>
   <script src="js/inventory.js"></script>
   <script src="js/dragdrop.js"></script>
